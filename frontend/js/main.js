@@ -37,7 +37,7 @@ function obtenerEstudiantes() {
         .then(response => response.json())
         .then(data => {
             estudiantesTable.innerHTML = '';
-            data.forEach(estudiante => {
+            data.records.forEach(estudiante => {
                 const row = estudiantesTable.insertRow();
                 row.insertCell(0).innerText = estudiante.nombre;
                 row.insertCell(1).innerText = estudiante.apellido;
