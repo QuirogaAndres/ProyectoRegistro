@@ -4,28 +4,29 @@ header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Origin: *");
 
 require_once "../../config/database.php";
+require_once "../../models/Docente.php";
 
 $database = new Database();
-$conn = $database->getConnection();
-
+$db = $database->getConnection();
+$docente = new Docente($db);
 
 $data = json_decode(file_get_contents("php://input"));
 
-if (!empty($data->nombre) && !empty($data->apellido) && !empty($data->email)) {
-    $query = "INSERT INTO docentes (nombre, apellido, email, departamento) VALUES (:nombre, :apellido, :email, :departamento)";
-    $stmt = $conn->prepare($query);
+if (!empty($data->nombre) && !empty($data->apellido) && !empty($data->email) && !empty($data->departamento)){
+    $docente->nombre = $data->nombre;
+    $docente->apellido = $data->apellido;
+    $docente->email = $data->email;
+    $docente->departamento = $data->departamento;
 
-    $stmt->bindParam(":nombre", $data->nombre);
-    $stmt->bindParam(":apellido", $data->apellido);
-    $stmt->bindParam(":email", $data->email);
-    $stmt->bindParam(":departamento", $data->departamento);
-
-    if ($stmt->execute()) {
-        echo json_encode(["message" => "Docente creado exitosamente."]);
+    if ($docente->create()) {
+        http_response_code(201);
+        echo json_encode(array("message" => "Docente creado correctamente."));
     } else {
-        echo json_encode(["message" => "Error al crear docente."]);
+        http_response_code(503);
+        echo json_encode(array("message" => "No se pudo crear el docente."));
     }
 } else {
-    echo json_encode(["message" => "Datos incompletos."]);
+    http_response_code(400);
+    echo json_encode(array("message" => "No se pudo crear el docente. Datos incompletos."));
 }
 ?>

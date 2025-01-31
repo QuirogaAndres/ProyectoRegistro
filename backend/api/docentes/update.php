@@ -4,47 +4,22 @@ header("Access-Control-Allow-Methods: PUT");
 header("Access-Control-Allow-Origin: *");
 
 require_once "../../config/database.php";
+require_once "../../models/Docente.php";
 
 $database = new Database();
-$conn = $database->getConnection();
+$db = $database->getConnection();
+$docente = new Docente($db);
 
 $data = json_decode(file_get_contents("php://input"));
 
 if (!empty($data->id)) {
-    $fieldsToUpdate = [];
-    $params = [];
+    $docente->id = $data->id;
+    $docente->nombre = $data->nombre ?? null;
+    $docente->apellido = $data->apellido ?? null;
+    $docente->email = $data->email ?? null;
+    $docente->departamento = $data->departamento ?? null;
 
-    if (!empty($data->nombre)) {
-        $fieldsToUpdate[] = "nombre = :nombre";
-        $params[":nombre"] = $data->nombre;
-    }
-    if (!empty($data->apellido)) {
-        $fieldsToUpdate[] = "apellido = :apellido";
-        $params[":apellido"] = $data->apellido;
-    }
-    if (!empty($data->email)) {
-        $fieldsToUpdate[] = "email = :email";
-        $params[":email"] = $data->email;
-    }
-    if (!empty($data->departamento)) {
-        $fieldsToUpdate[] = "departamento = :departamento";
-        $params[":departamento"] = $data->departamento;
-    }
-
-    if (empty($fieldsToUpdate)) {
-        echo json_encode(["message" => "No se proporcionaron datos para actualizar."]);
-        exit();
-    }
-
-    $query = "UPDATE docentes SET " . implode(", ", $fieldsToUpdate) . " WHERE id = :id";
-    $stmt = $conn->prepare($query);
-    $stmt->bindValue(":id", $data->id, PDO::PARAM_INT);
-
-    foreach ($params as $param => $value) {
-        $stmt->bindValue($param, $value, PDO::PARAM_STR);
-    }
-
-    if ($stmt->execute()) {
+    if ($docente->update()) {
         echo json_encode(["message" => "Docente actualizado exitosamente."]);
     } else {
         echo json_encode(["message" => "Error al actualizar docente."]);
@@ -52,4 +27,4 @@ if (!empty($data->id)) {
 } else {
     echo json_encode(["message" => "ID no proporcionado."]);
 }
-?>
+?>  

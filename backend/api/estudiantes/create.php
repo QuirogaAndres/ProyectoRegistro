@@ -4,28 +4,28 @@ header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Origin: *");
 
 require_once "../../config/database.php";
+require_once "../../models/Estudiante.php";
 
 $database = new Database();
-$conn = $database->getConnection();
-
+$db = $database->getConnection();
+$estudiante = new Estudiante($db);
 
 $data = json_decode(file_get_contents("php://input"));
 
 if (!empty($data->nombre) && !empty($data->apellido) && !empty($data->email)) {
-    $query = "INSERT INTO estudiantes (nombre, apellido, email) VALUES (:nombre, :apellido, :email)";
-    $stmt = $conn->prepare($query);
+    $estudiante->nombre = $data->nombre;
+    $estudiante->apellido = $data->apellido;
+    $estudiante->email = $data->email;
 
-    $stmt->bindParam(":nombre", $data->nombre);
-    $stmt->bindParam(":apellido", $data->apellido);
-    $stmt->bindParam(":email", $data->email);
-
-
-    if ($stmt->execute()) {
-        echo json_encode(["message" => "Estudiante creado exitosamente."]);
+    if ($estudiante->create()) {
+        http_response_code(201);
+        echo json_encode(array("message" => "Estudiante creado correctamente."));
     } else {
-        echo json_encode(["message" => "Error al crear estudiante."]);
+        http_response_code(503);
+        echo json_encode(array("message" => "No se pudo crear el estudiante."));
     }
 } else {
-    echo json_encode(["message" => "Datos incompletos."]);
+    http_response_code(400);
+    echo json_encode(array("message" => "No se pudo crear el estudiante. Datos incompletos."));
 }
 ?>
