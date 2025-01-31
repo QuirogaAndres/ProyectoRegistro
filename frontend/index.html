@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administración de Estudiantes y Docentes</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Logo en la parte superior -->
+    <header>
+        <div class="logo">
+            <img src="imagenes/logoCeeti.png" alt="Logo de la institución">
+        </div>
+    </header>
+
+    <!-- Contenedor Principal -->
+    <div class="container">
+        <h2>Administrar Estudiantes</h2>
+        <div class="action-buttons">
+            <button id="btnAgregarEstudiante">Agregar Estudiante</button>
+        </div>
+        <form id="estudiante-form" class="form">
+            <input type="hidden" id="id" name="id">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Ingrese el nombre del estudiante">
+
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" name="apellido" placeholder="Ingrese el apellido del estudiante">
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Ingrese el correo del estudiante">
+
+            <button type="submit">Enviar</button>
+        </form>
+
+        <table id="estudiantes-table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Email</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Aquí se llenarán los datos de estudiantes -->
+            </tbody>
+        </table>
+
+        <h2>Administrar Docentes</h2>
+        <div class="action-buttons">
+            <button id="btnAgregarDocente">Agregar Docente</button>
+        </div>
+        <form id="docente-form" class="form">
+            <input type="hidden" id="id" name="id">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Ingrese el nombre del docente">
+
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" name="apellido" placeholder="Ingrese el apellido del docente">
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Ingrese el correo del docente">
+
+            <label for="departamento">Departamento:</label>
+            <input type="text" id="departamento" name="departamento" placeholder="Ingrese el departamento del docente">
+
+            <button type="submit">Enviar</button>
+        </form>
+
+        <table id="docentes-table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Email</th>
+                    <th>Departamento</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Aquí se llenarán los datos de docentes -->
+            </tbody>
+        </table>
+    </div>
+    
+</body>
+</html>
