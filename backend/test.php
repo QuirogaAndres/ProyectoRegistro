@@ -13,3 +13,6 @@ if ($conn) {
 <?php
 echo "Conexión exitosa a docentes.";
 ?>
+<?php
+echo "Conexión exitosa a estudiantes.";
+?>

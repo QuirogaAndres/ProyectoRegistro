@@ -8,7 +8,7 @@ require_once "../../config/database.php";
 $database = new Database();
 $conn = $database->getConnection();
 
-// Leer los datos enviados por el cliente
+
 $data = json_decode(file_get_contents("php://input"));
 
 if (!empty($data->nombre) && !empty($data->apellido) && !empty($data->email)) {
